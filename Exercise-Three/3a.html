@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Click Counter</title>
+  </head>
+<body>
+    <div id="root">
+
+    </div>
+    <!-- React -->
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+    <script type="text/babel" >
+        function Counter({counter,setCount}) {
+    
+            function handler() {
+                setCount(counter+1);
+                
+            }
+             return(
+<>
+            <button 
+    onClick={handler}
+    >click {counter} {counter==1? "time" :"times"}</button>
+    </>
+        )
+        }
+  function Reset({setCount}) {
+    function handlerest(params) {
+    setCount(0);      
+    }
+    return <button  onClick={handlerest}> reset</button>;
+  }
+    
+                
+
+
+                              
+     
+ function App() {
+            const [counter,setCount]=React.useState(0);
+
+
+    return(
+        <>
+        <Counter 
+        counter={counter}
+        setCount={setCount}
+         /> 
+        <Counter 
+          counter={counter}
+        setCount={setCount}
+        /> 
+         <Reset 
+          
+          setCount={setCount}
+        />
+
+        </>
+    
+    );
+        
+    
+ }
+
+
+   const root= ReactDOM.createRoot(
+    document.getElementById("root"));
+      root.render(<App/>);
+
+    </script>
+    
+</body>
+</html>
