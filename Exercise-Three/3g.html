@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React to  input   type  Exercise 3g </title>
+</head>
+<body>
+    <div id="js-container">
+        
+    </div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    
+    <script type="text/babel">
+
+        function App() {
+            const [value, setValue] = React.useState("");
+             function handler(event) {
+                setValue(event.target.value);
+         
+        }
+
+        function Reset() {
+            setValue("");
+        }
+        function Example() {
+            setValue("Example");
+        }
+
+
+
+            return(
+            <>  
+            <input type="text" onChange={handler}  placeholder="Type as you want" value={value} />
+            <button onClick={Reset}  >reset</button>
+            <button onClick={Example}  >Example</button>
+
+            <p>{value}</p>
+            </>
+            
+            
+        );
+        }
+
+       
+
+
+           const root= ReactDOM.createRoot(
+    document.getElementById("js-container"));
+
+
+      root.render(<App/>); 
+    </script>
+
+
+    
+</body>
+</html>

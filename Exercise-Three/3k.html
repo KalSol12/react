@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <!-- React -->
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/Chatbot.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+    <script type="text/babel">
+
+      function ChatInput({messages,setChatMessage,isLoading,setIsLoading}) {
+        const [inputText,setinputText]=React.useState('');
+        function saveInputText(event) {
+      setinputText(event.target.value)
+          
+        }
+        async function sendText() {
+            if (!inputText.trim()) return;
+            // ❌ prevent sending while loading
+            if (isLoading) return;
+            // ❌ prevent sending while loading
+       
+          const newChatMessage=[
+          ...messages,
+          {
+            message:inputText,
+            sender:"user",
+            key:crypto.randomUUID()
+          }
+        ];
+          
+            setChatMessage(newChatMessage);
+           setinputText('');
+
+        // ✅ start loading
+          setIsLoading(true);
+
+       const response= await Chatbot.getResponseAsync(inputText);
+       setChatMessage([
+          ...newChatMessage,
+          {
+            message:response,
+            sender:"robot",
+            key:crypto.randomUUID()
+          }
+        ])
+        // ✅ stop loading
+         setIsLoading(false);
+          
+        }
+        return (
+          <>
+            <input type="text" 
+            placeholder="Message for chatbot" size='30'
+            onChange={saveInputText}
+            value={inputText}
+            disabled={isLoading}
+            onKeyDown={(e)=>{
+                if (e.key==="Enter"){
+                  sendText();
+                }
+                else if(e.key==="Escape"){
+                  setinputText('');
+                }
+            }}
+             />
+            <button onClick={sendText}
+            disabled={isLoading || !inputText.trim()}
+            
+            >Send</button>
+          </>
+        );
+      }
+
+      function ChatMessage({ message, sender,isLoading }) {
+        return (
+          <div>
+            {sender === "robot" && (
+              <img src="robot.png" alt="Robot" width="50" />
+            )}
+
+            {message}
+
+            {sender === "user" && (
+              <img src="user.png" alt="User" width="50" />
+            )}
+          </div>
+        ); 
+
+      }
+
+      function ChatComponent({messages,isLoading}) {
+     
+        // const [messages,setChatMessage]=arry;
+        // const messages= arry[0];
+        // const setChatMessage=arry[1];
+  
+      
+    return ( 
+            <>
+          
+
+               {messages.map((msg,index) => (
+                <ChatMessage
+              
+                message={msg.message}
+                sender={msg.sender}
+                key={index}
+    
+    />
+                ))}
+                   {isLoading && (
+        <div>
+          <img src="robot.png" width="50" />
+          <i>Typing...</i>
+        </div>
+      )}
+            </>
+            );
+        
+      }
+
+   
+      function App() {
+         const [messages,setChatMessage]=  React.useState([
+          { message: "Hello", sender: "user" ,key:"id1"},
+          { message: "I am great!!!", sender: "robot",key:"id2" },
+          { message: "How are you?", sender: "user",key:"id3" },
+          { message: "I am fine 😊", sender: "robot", key:"id4" }
+        ]);
+        const [isLoading, setIsLoading] = React.useState(false);
+       
+
+        return (
+          <>
+            <ChatInput 
+            messages={messages} 
+            setChatMessage={setChatMessage}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            />
+
+            <ChatComponent  messages={messages}
+                            isLoading={isLoading}
+            />
+
+          </>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+
+    </script>
+  </body>
+</html>
