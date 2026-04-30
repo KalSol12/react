@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>current  time date </title>
+</head>
+<body>
+        <div id="root"></div>
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js">
+</script>
+<script type="text/babel">
+    // comment : this is a clock component that displays the current time and date, updating every second.
+    function Clock() {
+        // useState hook to manage the current time state
+        const [time, setTime] = React.useState(new Date());
+
+        // useEffect hook to set up an interval that updates the time every second
+
+        React.useEffect(() => {
+            // Set up an interval to update the time every second
+            const timerID = setInterval(() => {
+                tick();
+            console.log("run useEffect");
+                
+
+            }, 1000);
+        
+            // Clean up the interval when the component unmounts
+            return () => clearInterval(timerID);
+        });// Empty dependency array means this effect runs once on mount and cleans up on unmount
+   // Function to update the time state with the current time
+        function tick() {
+            // Update the time state with the current time
+            setTime(new Date());
+        }
+
+        return (
+            // Render the current time and date in a styled div
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
+                
+                <h1>Current Time</h1>
+                <h2>{time.toLocaleTimeString()}</h2>
+                <h2>{time.toLocaleDateString()}</h2>
+            </div>
+        );
+    }
+// Render the Clock component into the root div
+    ReactDOM.render(<Clock />, document.getElementById('root'));
+
+
+</script>
+
+    
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>off and on</title>
+</head>
+<body>
+     <div id="root"></div>
+     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+    function ToggleButton() {
+        const [isOn, setIsOn] = React.useState(false);
+
+        function toggle() {   
+            setIsOn(!isOn);
+        }
+
+        return (
+            <button onClick={toggle} style={{ backgroundColor: isOn ? 'green' : 'red',
+             color: 'white', padding: '10px 20px', border: 'none',
+              borderRadius: '5px', cursor: 'pointer' }}>
+                {isOn ? 'ON' : 'OFF'}
+            </button>
+        );
+    }
+
+    ReactDOM.render(<ToggleButton />, document.getElementById('root'));
+</script>
+
+    
+</body>
+</html>
