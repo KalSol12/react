@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>counter app with  click, reset and autoclick button then automatically increase use useRef and ... </title>
+</head>
+<body>
+     <!-- Exercise 4: Counter App with Click, Reset, and Auto-Click Buttons -->
+        <div id="root"></div>
+        <!-- // This React component implements a counter application with the following features:
+        // 1. A counter that displays the current count.
+        // 2. An "Increment" button that increases the count by 1 when clicked.
+        // 3. A "Reset" button that resets the count to 0 when clicked.
+        // 4. A "Start Auto Increment" button that starts automatically incrementing the count every second when clicked.
+        // 5. A "Stop Auto Increment" button that stops the automatic incrementing when clicked.    
+
+          -->
+        <!-- this external script is React that provides the core React functionality for the application  ...-->
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <!-- this is external script is react-dom that provides the DOM rendering capabilities for React -->
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<!-- this external script is Babel that allows us to write modern JavaScript and JSX syntax in our React code, which will be transpiled to browser-compatible JavaScript -->
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<!-- this is the main script where we define our React component text/babel means type="text/babel" used for specifying JSX syntax with Babel without requiring a build step -->
+<script type="text/babel">
+    // Counter component that implements the counter functionality
+    function Counter() {
+        // useState hook to manage the count state and useRef hook to store the interval ID for auto-incrementing
+        // count state initialized to 0 and intervalRef initialized to null
+        // count state is used to keep track of the current count value, and intervalRef is used to store the ID of the interval that will be created for auto-incrementing the count every second.
+        //state variable count is initialized to 0, and a ref variable intervalRef is initialized to null. The count variable will be updated when the user clicks the "Increment" button or when the auto-increment feature is active, while the intervalRef will hold the ID of the interval that is created for auto-incrementing the count every second.
+        const [count, setCount] = React.useState(0);
+        // useRef is used to store a mutable value that does not cause a re-render when updated, making it ideal for storing the interval ID for auto-incrementing the count without triggering unnecessary re-renders of the component.
+        // intervalRef is used to store the ID of the interval that will be created for auto-incrementing the count every second. This allows us to start and stop the auto-incrementing functionality without causing unnecessary re-renders of the component, as updating a ref does not trigger a re-render.
+        const intervalRef = React.useRef(null);
+// Function to increment the count by 1 when the "Increment" button is clicked
+        function increment() {
+            setCount(count + 1);
+        }
+// Function to reset the count to 0 when the "Reset" button is clicked
+        function reset() {
+            setCount(0);
+        }
+// Function to start automatically incrementing the count every second when the "Start Auto Increment" button is clicked
+        function startAutoIncrement() {
+            // Check if the interval is not already running before starting a new one
+            if (intervalRef.current === null) {
+                // Create a new interval that increments the count every second and store the interval ID in intervalRef
+                intervalRef.current = setInterval(() => {
+                    // Use the functional form of setCount to ensure we get the latest count value when incrementing
+                    // This is important because the interval callback may run after the component has re-rendered, and using the functional form of setCount ensures that we always have the latest count value when incrementing.
+                    // The functional form of setCount takes a function as an argument, which receives the previous count value (prevCount) and returns the new count value (prevCount + 1). This ensures that we are always working with the most up-to-date count value, even if the component has re-rendered since the interval was created.
+                    //prevCount is the previous count value before the increment, and we return prevCount + 1 to update the count state with the new incremented value. This approach ensures that we are always working with the latest count value, even if the component has re-rendered since the interval was created.
+                    //pevcount is co
+                    //
+                    setCount(prevcount => prevcount + 1);
+                }, 1000);
+            }
+        }
+// Function to stop the automatic incrementing when the "Stop Auto Increment" button is clicked
+        function stopAutoIncrement() {
+            // Check if the interval is currently running before trying to stop it
+            if (intervalRef.current !== null) {
+                // Clear the interval using the stored interval ID and set intervalRef back to null
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+        }
+
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
+                <h1>Counter: {count}</h1>
+                <button onClick={increment} style={{ padding: '10px', marginBottom: '10px' }}>Increment</button>
+                <button onClick={reset} style={{ padding: '10px', marginBottom: '10px' }}>Reset</button>
+                <button onClick={startAutoIncrement} style={{ padding: '10px', marginBottom: '10px' }}>Start Auto Increment</button>
+                <button onClick={stopAutoIncrement} style={{ padding: '10px' }}>Stop Auto Increment</button>
+            </div>
+        );
+    }
+
+    ReactDOM.render(<Counter />, document.getElementById('root'));
+</script>
+
+
+
+    
+</body>
+</html>
